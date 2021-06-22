@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1051945333350",
+    "project_id": "patikacodework",
+    "storage_bucket": "patikacodework.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1051945333350:android:879e8a8013c45ba04673a7",
+        "android_client_info": {
+          "package_name": "com.patikacodework"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1051945333350-ij4149ua5va3es18tvmg70t75srhh63r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpsPFvIKrHGd_zYgHScreUglIfcLwQd-4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1051945333350-ij4149ua5va3es18tvmg70t75srhh63r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
