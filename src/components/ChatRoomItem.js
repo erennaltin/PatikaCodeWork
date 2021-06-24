@@ -12,7 +12,7 @@ const ChatRoomItem = ({item, navigation}) => {
         text: 'OK',
         onPress: () =>
           navigation.navigate('Room', {
-            params: {roomName: item.roomName},
+            roomName: item.roomName,
           }),
       },
     ]);

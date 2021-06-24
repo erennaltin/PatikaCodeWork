@@ -33,7 +33,9 @@ const HomePage = props => {
       <FlatList
         contentContainerStyle={styles.rooms}
         data={rooms}
-        renderItem={({item}) => <ChatRoomItem item={item} />}
+        renderItem={({item}) => (
+          <ChatRoomItem item={item} navigation={props.navigation} />
+        )}
         keyExtractor={item => item.roomName}
         numColumns="2"
       />

@@ -10,6 +10,7 @@ import HomePage from './pages/HomePage';
 import {useSelector} from 'react-redux';
 import useUser from './hooks/useUser';
 import ProfilePage from './pages/ProfilePage';
+import RoomPage from './pages/RoomPage';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -21,6 +22,23 @@ const Router = () => {
   if (loading) {
     return <ActivityIndicator size="small" color="darkorange" />;
   }
+
+  const RoomHandler = () => {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={HomePage}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Room"
+          component={RoomPage}
+          options={{headerShown: false}}
+        />
+      </Stack.Navigator>
+    );
+  };
 
   return (
     <NavigationContainer>
@@ -39,7 +57,11 @@ const Router = () => {
         </Stack.Navigator>
       ) : (
         <Tab.Navigator>
-          <Tab.Screen name="Home" component={HomePage} />
+          <Tab.Screen
+            name="HomeHandler"
+            component={RoomHandler}
+            options={{title: 'Home'}}
+          />
           <Tab.Screen name="ProfilePage" component={ProfilePage} />
         </Tab.Navigator>
       )}
