@@ -1,39 +1,49 @@
 import React from 'react';
+import {ActivityIndicator} from 'react-native';
 import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage.js';
-// import auth from '@react-native-firebase/auth';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import HomePage from './pages/HomePage';
+import {useSelector} from 'react-redux';
+import useUser from './hooks/useUser';
+import ProfilePage from './pages/ProfilePage';
 
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 const Router = () => {
-  // auth()
-  //   .createUserWithEmailAndPassword('eren1@gmail.com', '123456')
-  //   .then(() => {
-  //     console.log('User account created & signed in!');
-  //   })
-  //   .catch(error => {
-  //     if (error.code === 'auth/email-already-in-use') {
-  //       console.log('That email address is already in use!');
-  //     }
+  const user = useSelector(state => state.user.user);
+  const {loading} = useUser();
 
-  //     if (error.code === 'auth/invalid-email') {
-  //       console.log('That email address is invalid!');
-  //     }
-
-  //     console.error(error);
-  //   });
+  if (loading) {
+    return <ActivityIndicator size="small" color="darkorange" />;
+  }
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Login" component={LoginPage} />
-        <Stack.Screen name="SignUp" component={SignUpPage} />
-      </Stack.Navigator>
+      {user === null ? (
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Login"
+            component={LoginPage}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="SignUp"
+            component={SignUpPage}
+            options={{headerShown: false}}
+          />
+        </Stack.Navigator>
+      ) : (
+        <Tab.Navigator>
+          <Tab.Screen name="Home" component={HomePage} />
+          <Tab.Screen name="ProfilePage" component={ProfilePage} />
+        </Tab.Navigator>
+      )}
     </NavigationContainer>
   );
 };
-
 export default Router;
