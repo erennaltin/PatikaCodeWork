@@ -23,26 +23,21 @@ const Router = () => {
     return <ActivityIndicator size="small" color="darkorange" />;
   }
 
-  const RoomHandler = () => {
+  const PageHandler = () => {
     return (
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
+      <Tab.Navigator>
+        <Tab.Screen
+          name="HomeHandler"
           component={HomePage}
-          options={{headerShown: false}}
+          options={{title: 'Home'}}
         />
-        <Stack.Screen
-          name="Room"
-          component={RoomPage}
-          options={{headerShown: false}}
-        />
-      </Stack.Navigator>
+        <Tab.Screen name="ProfilePage" component={ProfilePage} />
+      </Tab.Navigator>
     );
   };
-
   return (
     <NavigationContainer>
-      {user === null ? (
+      {user === null || user === {} ? (
         <Stack.Navigator>
           <Stack.Screen
             name="Login"
@@ -56,14 +51,18 @@ const Router = () => {
           />
         </Stack.Navigator>
       ) : (
-        <Tab.Navigator>
-          <Tab.Screen
-            name="HomeHandler"
-            component={RoomHandler}
-            options={{title: 'Home'}}
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Home"
+            component={PageHandler}
+            options={{headerShown: false}}
           />
-          <Tab.Screen name="ProfilePage" component={ProfilePage} />
-        </Tab.Navigator>
+          <Stack.Screen
+            name="Room"
+            component={RoomPage}
+            options={{headerShown: false}}
+          />
+        </Stack.Navigator>
       )}
     </NavigationContainer>
   );

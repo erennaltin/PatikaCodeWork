@@ -3,6 +3,7 @@ import {View, Text, Button} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {useDispatch} from 'react-redux';
 import {LOG_OUT} from '../store/actions';
+import MessageInput from '../components/MessageInput';
 
 const ProfilePage = props => {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ const ProfilePage = props => {
     <View>
       <Text> Selam! Profile </Text>
       <Button title="Sign Out" onPress={signOut} />
+      <MessageInput />
     </View>
   );
 };

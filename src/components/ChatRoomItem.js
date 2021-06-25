@@ -1,7 +1,7 @@
 import React from 'react';
 import {TouchableHighlight, Text, StyleSheet, View, Alert} from 'react-native';
 
-const ChatRoomItem = ({item, navigation}) => {
+const ChatRoomItem = ({item, navigation, index}) => {
   const handleVisitRoom = () =>
     Alert.alert(item.roomName, 'Do you really want to join this room?', [
       {
@@ -13,6 +13,7 @@ const ChatRoomItem = ({item, navigation}) => {
         onPress: () =>
           navigation.navigate('Room', {
             roomName: item.roomName,
+            roomId: index,
           }),
       },
     ]);
@@ -26,10 +27,7 @@ const ChatRoomItem = ({item, navigation}) => {
         <Text numberOfLines={1} ellipsizeMode="tail" style={styles.roomName}>
           {item.roomName}
         </Text>
-        <View style={styles.counterContainer}>
-          <Text style={styles.userCounter}>{item.userCounter}</Text>
-          <Text> Icon </Text>
-        </View>
+        <Text> Icon </Text>
       </View>
     </TouchableHighlight>
   );
@@ -57,11 +55,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: 'white',
     marginBottom: 8,
-  },
-  counterContainer: {flexDirection: 'row'},
-  userCounter: {
-    color: 'white',
-    fontWeight: 'bold',
   },
 });
 

@@ -12,6 +12,7 @@ const CustomButton = ({
   theme = 'Primary',
   disabled = false,
   loading = false,
+  size = 'normal',
   ...props
 }) => {
   return (
@@ -22,6 +23,7 @@ const CustomButton = ({
       }
       style={[
         styles.container,
+        styles[`${size}`],
         disabled ? styles.disabled : styles[`container${theme}`],
       ]}>
       <View>
@@ -43,8 +45,6 @@ const CustomButton = ({
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    marginBottom: 16,
     borderWidth: 3,
     borderRadius: 16,
     alignItems: 'center',
@@ -57,6 +57,10 @@ const styles = StyleSheet.create({
   containerSecondary: {
     borderColor: 'white',
     backgroundColor: 'white',
+  },
+  containerThird: {
+    backgroundColor: 'orange',
+    borderColor: 'orange',
   },
   disabled: {
     borderColor: '#ffb733',
@@ -72,6 +76,17 @@ const styles = StyleSheet.create({
   },
   textSecondary: {
     color: 'orange',
+  },
+  textThird: {
+    color: 'white',
+  },
+  normal: {
+    width: '100%',
+    marginBottom: 16,
+  },
+  small: {
+    width: '15%',
+    marginLeft: 16,
   },
 });
 

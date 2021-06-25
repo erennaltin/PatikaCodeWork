@@ -14,10 +14,6 @@ const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const signUpValidationSchema = yup.object().shape({
-    fullName: yup
-      .string()
-      .matches(/(\w.+\s).+/, 'Enter at least 2 names')
-      .required('Full name is required'),
     phoneNumber: yup
       .string()
       .matches(/(0)(\d){10}\b/, 'Enter a valid phone number')
@@ -73,7 +69,6 @@ const SignUp = () => {
           validateOnMount
           validationSchema={signUpValidationSchema}
           initialValues={{
-            fullName: '',
             email: '',
             phoneNumber: '',
             password: '',
@@ -82,11 +77,6 @@ const SignUp = () => {
           onSubmit={values => signUpFirebase(values)}>
           {({handleSubmit, isValid}) => (
             <View style={styles.form}>
-              <Field
-                component={CustomInput}
-                name="fullName"
-                placeholder="Full Name"
-              />
               <Field
                 component={CustomInput}
                 name="email"

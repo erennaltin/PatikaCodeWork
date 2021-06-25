@@ -8,23 +8,38 @@ const CustomInput = props => {
     form: {errors, touched, setFieldTouched},
     ...inputProps
   } = props;
-
+  let theme = props.theme;
+  if (theme === undefined) {
+    theme = 'Primary';
+  }
   const hasError = errors[name] && touched[name];
 
   return (
     <View style={styles.container}>
       <TextInput
-        placeholderTextColor="rgba(255,255,255,0.4)"
-        style={[styles.textInput, hasError && styles.errorInput]}
+        placeholderTextColor={
+          theme === 'Primary'
+            ? 'rgba(255,255,255,0.4)'
+            : 'rgba(255, 165, 0,0.5)'
+        }
+        style={[
+          styles.textInput,
+          styles[`textInput${theme}`],
+          hasError && styles.errorInput,
+        ]}
         value={value}
         onChangeText={text => onChange(name)(text)}
         onBlur={() => {
-          setFieldTouched(name);
+          if (value) {
+            setFieldTouched(name);
+          }
           onBlur(name);
         }}
         {...inputProps}
       />
-      {hasError && <Text style={styles.errorText}>{errors[name]}</Text>}
+      {hasError && value !== '' && (
+        <Text style={styles.errorText}>{errors[name]}</Text>
+      )}
     </View>
   );
 };
@@ -35,11 +50,8 @@ const styles = StyleSheet.create({
   },
   textInput: {
     height: 40,
-    width: '100%',
     backgroundColor: 'transparent',
-    borderColor: 'white',
     borderBottomWidth: 2,
-    color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
   },
@@ -49,6 +61,16 @@ const styles = StyleSheet.create({
   },
   errorInput: {
     borderColor: 'orangered',
+  },
+  textInputPrimary: {
+    width: '100%',
+    borderColor: 'white',
+    color: 'white',
+  },
+  textInputSecondary: {
+    width: '130%',
+    borderColor: 'orange',
+    color: 'orange',
   },
 });
 

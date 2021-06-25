@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 
-const Message = ({author = false, theme = 'Primary', ...props}) => {
+const Message = ({theme = 'Primary', item}) => {
   const [seeDetail, setDetail] = useState(false);
 
   return (
@@ -12,7 +12,7 @@ const Message = ({author = false, theme = 'Primary', ...props}) => {
       <TouchableWithoutFeedback onLongPress={() => setDetail(!seeDetail)}>
         <View
           style={[styles.messageContainer, styles[`messageContainer${theme}`]]}>
-          <Text style={styles.message}> Message </Text>
+          <Text style={styles.message}> {item.message} </Text>
           {seeDetail && (
             <View
               hide={seeDetail}
@@ -20,7 +20,7 @@ const Message = ({author = false, theme = 'Primary', ...props}) => {
                 styles.informationContainer,
                 styles[`informationContainer${theme}`],
               ]}>
-              <Text style={styles.informationPiece}> Date</Text>
+              <Text style={styles.informationPiece}> {item.user} </Text>
             </View>
           )}
         </View>
@@ -33,16 +33,16 @@ export default Message;
 
 const styles = StyleSheet.create({
   photoContainer: {
-    width: 48,
-    height: 48,
+    width: 36,
+    height: 36,
     borderRadius: 999,
     backgroundColor: 'red',
   },
   innerContainer: {
-    alignItems: 'flex-end',
+    // alignItems: 'flex-end',
+    // justifyContent: 'center',
     maxWidth: '70%',
     minWidth: '100%',
-    backgroundColor: 'yellow',
     marginBottom: 8,
     marginTop: 16,
   },
@@ -82,12 +82,12 @@ const styles = StyleSheet.create({
   },
 
   messageContainerPrimary: {
-    marginLeft: 16,
+    marginLeft: 8,
     borderTopLeftRadius: 0,
     borderBottomRightRadius: 0,
   },
   messageContainerSecondary: {
-    marginRight: 16,
+    marginRight: 8,
     borderTopRightRadius: 0,
     borderBottomLeftRadius: 0,
   },
