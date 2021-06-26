@@ -7,6 +7,7 @@ import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
 import database from '@react-native-firebase/database';
 import auth from '@react-native-firebase/auth';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const MessageInput = ({roomId}) => {
   const [error, setError] = useState(null);
@@ -16,6 +17,7 @@ const MessageInput = ({roomId}) => {
   });
   const reference = database().ref(`/Rooms/${roomId}/messages`);
   const user = auth().currentUser;
+  const sendIcon = <Icon name="send" size={20} color="#ffa500" />;
 
   const setNewMessageFirebase = values => {
     setLoading(true);
@@ -23,6 +25,7 @@ const MessageInput = ({roomId}) => {
       .push({
         message: values.message,
         user: user.displayName,
+        date: new Date().getTime(),
       })
       .then(data => {
         setLoading(false);
@@ -42,8 +45,10 @@ const MessageInput = ({roomId}) => {
           initialValues={{
             message: '',
           }}
-          onSubmit={values => setNewMessageFirebase(values)}>
-          {({handleSubmit, isValid}) => (
+          onSubmit={values => {
+            setNewMessageFirebase(values);
+          }}>
+          {({handleSubmit, isValid, resetForm}) => (
             <View style={styles.form}>
               <Field
                 component={CustomInput}
@@ -54,7 +59,8 @@ const MessageInput = ({roomId}) => {
               <CustomButton
                 style={styles.customButton}
                 onPress={handleSubmit}
-                title=">"
+                resetForm={resetForm}
+                title={sendIcon}
                 disabled={!isValid}
                 theme="Third"
                 size="small"

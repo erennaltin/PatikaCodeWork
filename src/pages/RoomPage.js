@@ -26,17 +26,21 @@ const RoomPage = props => {
         if (list[0] === null) {
           list = {};
         }
-        const keyList = Object.keys(list);
-        let result = keyList.map((key, index) => {
+        let keyList = Object.keys(list);
+        const result = keyList.map((key, index) => {
           list[key].id = index;
           user.displayName === list[key].user
             ? (list[key].theme = 'Secondary')
             : '';
-
           return list[key];
         });
-        result = result.filter(item => (item === 'giris' ? false : true));
-        setMessages(result.reverse());
+        const newResult = result.filter(item =>
+          item === 'giris' ? false : true,
+        );
+        const sortedList = newResult.sort((a, b) => {
+          return a.date > b.date ? true : false;
+        });
+        setMessages(sortedList);
       });
 
     // Stop listening for updates when no longer required

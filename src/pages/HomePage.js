@@ -26,6 +26,19 @@ const HomePage = props => {
         const list = snapshot.val();
         const keys = Object.keys(list);
         const result = keys.map(key => list[key]);
+        const newKeys = [...keys];
+        keys.sort((a, b) => {
+          let index = newKeys.indexOf(a);
+          let index2 = newKeys.indexOf(b);
+
+          const first = result[index];
+          const second = result[index2];
+          return ('' + first.roomName).localeCompare(second.roomName);
+        });
+        result.sort((a, b) => {
+          return ('' + a.roomName).localeCompare(b.roomName);
+        });
+
         setRooms(result);
         setKeyList(keys);
         setLoading(false);
@@ -47,7 +60,6 @@ const HomePage = props => {
         <ActivityIndicator size="large" color="white" style={styles.rooms} />
       ) : error ? (
         <View style={styles.nullContainer}>
-          <Text> Flottie Ekle buraya</Text>
           <Text style={styles.nullText}> There is nothing here! </Text>
         </View>
       ) : (

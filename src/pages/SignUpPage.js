@@ -52,6 +52,7 @@ const SignUp = () => {
         username: values.username,
         phoneNumber: values.phoneNumber,
       });
+      console.log(updatedUser);
 
       dispatch(SET_USER(updatedUser));
     } catch (err) {

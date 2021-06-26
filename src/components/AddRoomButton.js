@@ -5,7 +5,6 @@ import * as yup from 'yup';
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
 import database from '@react-native-firebase/database';
-// import auth from '@react-native-firebase/auth';
 
 const AddRoomButton = props => {
   const [modalVisible, setModalVisible] = useState(false);
