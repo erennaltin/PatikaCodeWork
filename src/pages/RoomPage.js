@@ -1,5 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
 import Header from '../components/Header';
 import Message from '../components/Message';
 import MessageInput from '../components/MessageInput';
@@ -17,6 +23,7 @@ const RoomPage = props => {
   const roomName = props.route.params.roomName;
   const roomId = props.route.params.roomId;
   const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const onValueChange = database()
@@ -38,9 +45,10 @@ const RoomPage = props => {
           item === 'giris' ? false : true,
         );
         const sortedList = newResult.sort((a, b) => {
-          return a.date > b.date ? true : false;
+          return a.date > b.date ? false : true;
         });
         setMessages(sortedList);
+        setLoading(false);
       });
 
     // Stop listening for updates when no longer required
@@ -51,13 +59,19 @@ const RoomPage = props => {
   return (
     <View style={styles.container}>
       <Header title={props.route.params.roomName} />
-      <FlatList
-        style={styles.messageContainer}
-        ListHeaderComponent={introduction(roomName)}
-        data={messages}
-        keyExtractor={item => item.id}
-        renderItem={({item}) => <Message item={item} theme={item.theme} />}
-      />
+      {loading ? (
+        <ActivityIndicator size="large" color="orange" />
+      ) : (
+        <FlatList
+          inverted
+          style={styles.messageContainer}
+          ListFooterComponent={introduction(roomName)}
+          data={messages}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => <Message item={item} theme={item.theme} />}
+        />
+      )}
+
       <MessageInput roomId={roomId} />
     </View>
   );
@@ -69,6 +83,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   messageContainer: {
     width: '90%',

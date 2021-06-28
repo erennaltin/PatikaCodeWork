@@ -5,6 +5,7 @@ import * as yup from 'yup';
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
 import database from '@react-native-firebase/database';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const AddRoomButton = props => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -46,10 +47,14 @@ const AddRoomButton = props => {
         visible={modalVisible}
         onRequestClose={() => {
           setModalVisible(!modalVisible);
+          props.setButtonUnvisible(true);
         }}>
         <Pressable
           style={styles.modalContainer}
-          onPress={() => setModalVisible(!modalVisible)}
+          onPress={() => {
+            setModalVisible(!modalVisible);
+            props.setButtonUnvisible(true);
+          }}
           android_disableSound>
           <Pressable
             style={styles.modalInnerContainer}
@@ -86,9 +91,14 @@ const AddRoomButton = props => {
         </Pressable>
       </Modal>
       <Pressable
-        onPress={() => setModalVisible(!modalVisible)}
-        style={styles.buttonContainer}>
-        <Text style={styles.buttonText}> + </Text>
+        onPress={() => {
+          setModalVisible(!modalVisible);
+          props.setButtonUnvisible(false);
+        }}
+        style={[styles.buttonContainer, props.up && styles.up]}>
+        <Text style={styles.buttonText}>
+          <Icon name={'post-add'} size={40} color="darkorange" />
+        </Text>
       </Pressable>
     </View>
   );
@@ -102,8 +112,8 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     position: 'absolute',
-    bottom: 10,
     right: 10,
+    bottom: -160,
     width: 64,
     height: 64,
     borderRadius: 999,
@@ -117,7 +127,6 @@ const styles = StyleSheet.create({
     color: 'orange',
     fontSize: 36,
     fontWeight: 'bold',
-    transform: [{translateY: -2}],
   },
   modalContainer: {
     flex: 1,

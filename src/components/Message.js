@@ -1,13 +1,33 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, TouchableWithoutFeedback} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  Image,
+} from 'react-native';
+import database from '@react-native-firebase/database';
 
 const Message = ({theme = 'Primary', item}) => {
   const [seeDetail, setDetail] = useState(false);
+  const [source, setSource] = useState(require('../static/user.png'));
+  const username = item.user;
+
+  useEffect(() => {
+    database()
+      .ref(`UserPhotos/${username}`)
+      .once('value')
+      .then(data => {
+        setSource(data.val().photoURL);
+      });
+
+    return () => {};
+  }, [username]);
 
   return (
     <View style={[styles.innerContainer, styles[`innerContainer${theme}`]]}>
       <View style={styles.photoContainer}>
-        <Text> A </Text>
+        <Image source={source} style={styles.photo} />
       </View>
       <TouchableWithoutFeedback onLongPress={() => setDetail(!seeDetail)}>
         <View
@@ -37,6 +57,12 @@ const styles = StyleSheet.create({
     height: 36,
     borderRadius: 999,
     backgroundColor: 'red',
+    overflow: 'hidden',
+  },
+  photo: {
+    width: 36,
+    height: 36,
+    overflow: 'hidden',
   },
   innerContainer: {
     // alignItems: 'flex-end',

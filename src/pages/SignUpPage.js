@@ -1,5 +1,5 @@
 // SignUp.js
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text, StatusBar} from 'react-native';
 import {Formik, Field} from 'formik';
 import {useDispatch} from 'react-redux';
@@ -7,11 +7,14 @@ import * as yup from 'yup';
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
 import auth from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
+
 import {SET_USER} from '../store/actions';
 
 const SignUp = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [source, setSource] = useState('');
   const dispatch = useDispatch();
   const signUpValidationSchema = yup.object().shape({
     phoneNumber: yup
@@ -39,6 +42,22 @@ const SignUp = () => {
       .required('Confirm password is required'),
   });
 
+  useEffect(() => {
+    const unsubscribe = database()
+      .ref('UserPhotos/admin')
+      .once('value')
+      .then(data => {
+        setSource(data.val().photoURL);
+      })
+      .catch(err => {
+        setError(err.message);
+      });
+
+    return () => {
+      return unsubscribe();
+    };
+  }, []);
+
   const signUpFirebase = async values => {
     setLoading(true);
     try {
@@ -47,14 +66,19 @@ const SignUp = () => {
         values.email,
         values.password,
       );
+      // eslint-disable-next-line no-unused-vars
       const updatedUser = await auth().currentUser.updateProfile({
         displayName: values.username,
         username: values.username,
         phoneNumber: values.phoneNumber,
       });
-      console.log(updatedUser);
 
-      dispatch(SET_USER(updatedUser));
+      const authorizedUser = await auth().currentUser;
+      const reference = database().ref(`UserPhotos/${values.username}`);
+      reference.set({
+        photoURL: source,
+      });
+      dispatch(SET_USER(authorizedUser));
     } catch (err) {
       setError(err.message.split(']')[1]);
     } finally {

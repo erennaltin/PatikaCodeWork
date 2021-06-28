@@ -3,9 +3,12 @@ import initialStates from '../initialStates';
 const userReducer = (state = initialStates, action) => {
   switch (action.type) {
     case 'SET_USER':
-      return {...state, user: action.payload.user};
+      console.log('HEREEEE');
+      console.log(action.payload);
+      return {...state, user: action.payload};
     case 'LOG_OUT':
-      return {state, user: null};
+      console.log('CIKISSSSS');
+      return {...state, user: {}};
     default:
       return {...state};
   }

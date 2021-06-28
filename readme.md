@@ -5,5 +5,5 @@
 + mesaj logici ve firebase storage activation
 + İlk kurulan sayfa hatası
 +  react-native-vector-icon pack kur
-- profil sayfası ve resim yükleme 
-- Mesajları sırala!
++ profil sayfası ve resim yükleme 
++ Mesajları sırala!

@@ -8,19 +8,19 @@ import {
 } from 'react-native';
 import ChatRoomItem from '../components/ChatRoomItem';
 import Header from '../components/Header';
-import AddRoomButton from '../components/AddRoomButton';
 import database from '@react-native-firebase/database';
+import ModalContainer from '../components/ModalContainer';
 
 const HomePage = props => {
   const [rooms, setRooms] = useState([]);
   const [keyList, setKeyList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const reference = database().ref('/Rooms');
 
   const fetchListFromFirebase = () => {
     setLoading(true);
-    reference
+    const unsubscribe = database()
+      .ref('/Rooms')
       .once('value')
       .then(snapshot => {
         const list = snapshot.val();
@@ -47,12 +47,22 @@ const HomePage = props => {
         setError(err.message);
         setLoading(false);
       });
+    return unsubscribe;
   };
 
   useEffect(() => {
-    fetchListFromFirebase();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    let unsubscribe;
+    let load = true;
+    if (load) {
+      unsubscribe = fetchListFromFirebase();
+    }
+
+    return () => {
+      load = false;
+      return unsubscribe();
+    };
   }, []);
+
   return (
     <View style={styles.container}>
       <Header title="Rooms" />
@@ -80,9 +90,10 @@ const HomePage = props => {
         </>
       )}
       {!loading && (
-        <AddRoomButton
+        <ModalContainer
           roomList={rooms}
           fetchListFromFirebase={fetchListFromFirebase}
+          navigation={props.navigation}
         />
       )}
     </View>

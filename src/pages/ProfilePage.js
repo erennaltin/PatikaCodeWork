@@ -1,24 +1,47 @@
-import React from 'react';
-import {View, Text, Button} from 'react-native';
-import auth from '@react-native-firebase/auth';
-import {useDispatch} from 'react-redux';
-import {LOG_OUT} from '../store/actions';
-import MessageInput from '../components/MessageInput';
+import React, {useEffect, useState} from 'react';
+import {View, StyleSheet} from 'react-native';
+
+import ImageInput from '../components/ImageInput';
+import CustomButton from '../components/CustomButton';
 
 const ProfilePage = props => {
-  const dispatch = useDispatch();
+  const [profileLoading, setProfileLoading] = useState(true);
+
+  useEffect(() => {
+    console.log(profileLoading);
+  }, [profileLoading]);
   const signOut = () => {
-    auth().signOut();
-    dispatch(LOG_OUT());
+    props.navigation.navigate('SignOutPage');
   };
 
   return (
-    <View>
-      <Text> Selam! Profile </Text>
-      <Button title="Sign Out" onPress={signOut} />
-      <MessageInput />
+    <View style={styles.container}>
+      <View style={styles.centeredView}>
+        <ImageInput setProfileLoading={setProfileLoading} />
+        <CustomButton
+          onPress={signOut}
+          theme="Third"
+          title="Sign Out"
+          disabled={profileLoading}
+        />
+      </View>
     </View>
   );
 };
 
 export default ProfilePage;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+  },
+  centeredView: {
+    flex: 1,
+    width: '90%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+});

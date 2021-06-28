@@ -17,7 +17,8 @@ const MessageInput = ({roomId}) => {
   });
   const reference = database().ref(`/Rooms/${roomId}/messages`);
   const user = auth().currentUser;
-  const sendIcon = <Icon name="send" size={20} color="#ffa500" />;
+  const sendIcon = <Icon name="send" size={20} color="white" />;
+  const sendDısable = <Icon name="send" size={20} color="#ffa500" />;
 
   const setNewMessageFirebase = values => {
     setLoading(true);
@@ -60,7 +61,7 @@ const MessageInput = ({roomId}) => {
                 style={styles.customButton}
                 onPress={handleSubmit}
                 resetForm={resetForm}
-                title={sendIcon}
+                title={!isValid ? sendDısable : sendIcon}
                 disabled={!isValid}
                 theme="Third"
                 size="small"
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
     width: '120%',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
   },
   title: {
     textAlign: 'center',

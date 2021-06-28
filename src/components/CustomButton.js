@@ -13,11 +13,12 @@ const CustomButton = ({
   disabled = false,
   loading = false,
   size = 'normal',
+  resetForm = () => {},
   ...props
 }) => {
   const sendAndResetForm = () => {
     props.onPress();
-    setTimeout(() => props.resetForm({}), 100);
+    setTimeout(() => resetForm({}), 100);
   };
   return (
     <TouchableHighlight
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   containerThird: {
-    backgroundColor: 'white',
+    backgroundColor: 'orange',
     borderColor: 'orange',
   },
   disabled: {
